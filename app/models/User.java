@@ -249,7 +249,7 @@ public class User extends Model implements ResourceConvertible {
      * @return user's id (not login id)
      */
     //original Source
-    /*
+    /*   
     public static Long create(User user) {
         user.createdDate = JodaDateUtil.now();
         user.name = defaultSanitize(user.name);
@@ -257,9 +257,10 @@ public class User extends Model implements ResourceConvertible {
         CacheStore.yonaUsers.put(user.id, user);
         return user.id;
     }
-    */
+   */
 
    //chagned Source
+   
    public static Long create(User user) {
         user.createdDate = JodaDateUtil.now();
         user.name = defaultSanitize(user.name);
@@ -272,6 +273,7 @@ public class User extends Model implements ResourceConvertible {
         CacheStore.yonaUsers.put(user.id, user);
         return user.id;
     }
+
 
 
 

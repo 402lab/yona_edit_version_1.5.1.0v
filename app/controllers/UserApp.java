@@ -419,6 +419,10 @@ public class UserApp extends Controller {
 		Form<User> newUserForm = form(User.class).bindFromRequest();
 		validate(newUserForm);
 
+		if (newUserForm.hasErrors()) {
+		      return badRequest(signup.render("title.signup", newUserForm));
+       	 	}
+
 		User new_user = new User();
 
 		new_user.loginId = newUserForm.get().loginId;
@@ -1248,22 +1252,24 @@ public class UserApp extends Controller {
 
     private static void validate(Form<User> newUserForm) {
         if (newUserForm.field("loginId").value().trim().isEmpty()) {
+		flash(Constants.INFO, "아이디를 입력해주세요.");
             newUserForm.reject("loginId", "user.wrongloginId.alert");
         }
 
         if (newUserForm.field("loginId").value().contains(" ")) {
+	    flash(Constants.INFO, "아이디에 빈칸을 넣을 수 없습니다.");
             newUserForm.reject("loginId", "user.wrongloginId.alert");
         }
 	/*
         if (newUserForm.field("password").value().trim().isEmpty()) {
             newUserForm.reject("password", "user.wrongPassword.alert");
         }
-*/
+
         if (User.isLoginIdExist(newUserForm.field("loginId").value())
             || Organization.isNameExist(newUserForm.field("loginId").value())) {
             newUserForm.reject("loginId", "user.loginId.duplicate");
         }
-/*	
+	
         if (User.isEmailExist(newUserForm.field("email").value())) {
             newUserForm.reject("email", "user.email.duplicate");
         }
