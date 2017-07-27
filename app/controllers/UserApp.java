@@ -1254,19 +1254,20 @@ public class UserApp extends Controller {
         if (newUserForm.field("loginId").value().contains(" ")) {
             newUserForm.reject("loginId", "user.wrongloginId.alert");
         }
-
+	/*
         if (newUserForm.field("password").value().trim().isEmpty()) {
             newUserForm.reject("password", "user.wrongPassword.alert");
         }
-
+*/
         if (User.isLoginIdExist(newUserForm.field("loginId").value())
             || Organization.isNameExist(newUserForm.field("loginId").value())) {
             newUserForm.reject("loginId", "user.loginId.duplicate");
         }
-
+/*	
         if (User.isEmailExist(newUserForm.field("email").value())) {
             newUserForm.reject("email", "user.email.duplicate");
         }
+	*/
     }
 
     private static User createNewUser(User user) {
