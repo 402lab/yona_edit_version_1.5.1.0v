@@ -248,6 +248,8 @@ public class User extends Model implements ResourceConvertible {
      * @param user
      * @return user's id (not login id)
      */
+    //original Source
+    /*
     public static Long create(User user) {
         user.createdDate = JodaDateUtil.now();
         user.name = defaultSanitize(user.name);
@@ -255,6 +257,23 @@ public class User extends Model implements ResourceConvertible {
         CacheStore.yonaUsers.put(user.id, user);
         return user.id;
     }
+    */
+
+   //chagned Source
+   public static Long create(User user) {
+        user.createdDate = JodaDateUtil.now();
+        user.name = defaultSanitize(user.name);
+        try{
+        	user.save();
+        }
+        catch(Exception ex) {
+        	return null;
+        }
+        CacheStore.yonaUsers.put(user.id, user);
+        return user.id;
+    }
+
+
 
     /**
      * find a user by login id string

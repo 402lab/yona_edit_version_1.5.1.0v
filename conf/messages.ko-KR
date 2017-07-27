@@ -917,7 +917,7 @@ title.resetPasswordFor = <span class="highlight">{0}</span> 비밀번호 재설�
 title.search = 검색
 title.searchByKeyword = 키워드로 검색
 title.sendMail = 메일 발송
-title.signup = 멤버 가입
+title.signup = 멤버 추가
 title.signupFor = <span class="highlight">{0}</span> 멤버 가입
 title.signupConfirmDesc = 가입 후 사용을 위해서는 관리자의 승인이 필요합니다
 title.signupConfirmDesc2 = <span class="obfuscate">{0}</span>으로 문의하세요
@@ -980,7 +980,7 @@ user.role.org_member = 그룹 구성원
 user.role.owner =  프로젝트 소유자
 user.role.sitemanager = 사이트 관리자
 user.signup.requested = 가입 요청을 보냈습니다. 사이트 관리자가 검토/승인 후 사용가능합니다. 감사합니다.
-user.signupBtn = 참여하기
+user.signupBtn = 추가하기
 user.signupId = 아이디
 user.verification.mail.sent = 사용자 정보 확인을 위한 메일을 보냈습니다
 user.verification = 사용자 정보 확인

@@ -107,6 +107,13 @@
                   @Messages("title.newOrganization")
                   </a>
               </li>
+	      @if(UserApp.currentUser.isSiteManager) {
+  	      <li>
+                  <a href="@routes.UserApp.signupForm()" class="ybtn ybtn-success">
+                  @Messages("title.signup")
+                  </a>
+              </li>
+	      }
           </ul>
       </li>
       } else {
@@ -115,11 +122,13 @@
           @Messages("title.login")
           </a>
         </li>
+<!--
         <li class="divider"></li>
         <li>
             <a href="@routes.UserApp.signupForm()" class="ybtn ybtn-success">
                 @Messages("title.signup")
             </a>
         </li>
+-->
       }
 </ul>

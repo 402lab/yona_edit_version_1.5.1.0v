@@ -361,6 +361,7 @@ public class UserApp extends Controller {
         return authenticate(loginId, password, false);
     }
 
+/* Original Source
     public static Result signupForm() {
         if(!UserApp.currentUser().isAnonymous()) {
             return redirect(routes.Application.index());
@@ -368,7 +369,19 @@ public class UserApp extends Controller {
 
         return ok(signup.render("title.signup", form(User.class)));
     }
+*/
 
+//changed Source
+	public static Result signupForm() {
+		// siteManager 가입 접속 허가
+		if (!UserApp.currentUser().isSiteManager()) {
+			return redirect(routes.Application.index());
+		}
+		return ok(signup.render("title.signup", form(User.class)));
+	}
+		
+
+/* original Source
     @Transactional
     public static Result newUser() {
         Form<User> newUserForm = form(User.class).bindFromRequest();
@@ -398,6 +411,56 @@ public class UserApp extends Controller {
         }
         return redirect(routes.Application.index());
     }
+*/
+
+//changed Source
+@Transactional
+	public static Result newUser() {
+		Form<User> newUserForm = form(User.class).bindFromRequest();
+		validate(newUserForm);
+
+		User new_user = new User();
+
+		new_user.loginId = newUserForm.get().loginId;
+		new_user.name = newUserForm.get().name;
+		new_user.email = newUserForm.get().loginId + "@회사메일";
+
+		RandomNumberGenerator rng = new SecureRandomNumberGenerator();
+		new_user.passwordSalt = rng.nextBytes().toBase64();
+		new_user.password = hashedPassword("1234", new_user.passwordSalt);
+		if (isUsingSignUpConfirm() || isUsingEmailVerification()) {
+			new_user.state = UserState.LOCKED;
+		} else {
+			new_user.state = UserState.ACTIVE;
+		}
+		if (User.create(new_user) == null) {
+			flash(Constants.INFO, "이미 존재하는 아이디 입니다");
+			return redirect(routes.UserApp.signupForm());
+		}
+
+		Email.deleteOtherInvalidEmails(new_user.email);
+		if (isUsingEmailVerification()) {
+			UserVerification.newVerification(new_user);
+			sendMailAfterUserCreation(new_user);
+		}
+
+		if (isUsingEmailVerification()) {
+			if (isAllowedEmailDomains(new_user.email)) {
+				flash(Constants.INFO, "user.verification.mail.sent");
+			} else {
+				flash(Constants.INFO, "user.unacceptable.email.domain");
+			}
+		}
+		if (new_user.state == UserState.LOCKED && isUsingSignUpConfirm()) {
+			flash(Constants.INFO, "user.signup.requested");
+		} else {
+			// addUserInfoToSession(new_user);
+		}
+		flash(Constants.INFO, "가입 처리가 성공적으로  완료되었습니다.");
+		return redirect(routes.UserApp.signupForm());
+	}
+//changed end
+
 
     private static String newLoginIdWithoutDup(final String candidate, int num) {
         String newLoginIdSuggestion = candidate + "" + num;
